@@ -39,15 +39,17 @@ const Body = () => {
         <Container>
           <Row className="justify-content-center m-3">
             <Col xs={12} md={8} className="d-flex flex-column justify-content-between text-center MainBody">
-              <div className="overflow-scroll" style={{height: "75vh"}}>
                 <h1>ToDo & Completed</h1>
                 {/* task input field and action button */}
                 <input
                     value={taskName}
                     onChange={event => setTaskName(event.target.value)}
                 />
+                <br />
                 <button onClick={() => dispatch({type: 'addTask', name: taskName})}>Add Task</button>
                 <br />
+
+                <div className="overflow-scroll" style={{height: "60vh"}}>
                 <h3>Tasks:</h3>
                     {state.tasks.map(task => (
                         <div key={task.id}>
@@ -56,11 +58,11 @@ const Body = () => {
                             </div>
                         </div>
                     ))}
-
+              </div>
+              <br />
                 <Link to='/'> 
                   <button> Home  </button>
                 </Link> <br />
-              </div>
             </Col>
           </Row>
         </Container>
