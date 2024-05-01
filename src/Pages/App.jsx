@@ -4,6 +4,8 @@ import ThemeProvider from 'react-bootstrap/ThemeProvider'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+// import { TaskContext } from "./main"
+// import { useContext } from "react"
 
 // make a body const
 
@@ -18,9 +20,9 @@ const Body = () => {
           <Col xs={12} md={8} className="d-flex flex-column justify-content-between text-center MainBody">
             <div className="overflow-scroll" style={{height: "75vh"}}>
               <h1>To-Do List</h1>
-              <button>All Tasks</button> <br />
-              <button>To-Do</button> <br />
-              <button>Completed</button>
+              <Link to='/AllTasks'> 
+                <button> All Tasks  </button>
+              </Link> <br />
             </div>
           </Col>
         </Row>
