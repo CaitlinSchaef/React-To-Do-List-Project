@@ -36,9 +36,19 @@ export const initialState =
 //reducer
 export const taskReducer = (state, action) => {
     switch(action.type) {
+        //original case for adding task
         case 'addTask':
             return {tasks: [...state.tasks, {id: state.tasks.length + 1, title: action.name, status: "to-do", description: ""}]}
-        }
+        //case for editing 
+        case 'editTask':
+          let updatedArray = [...state.tasks]
+          updatedArray = updatedArray.map(item => {
+
+          })
+          return {
+            tasks: updatedArray
+          }
+    }
 }
 
 //The dispatch function returned by useReducer lets you update the state to a different value and trigger a re-render. You need to pass the action as the only argument to the dispatch function
@@ -75,6 +85,12 @@ const Body = () => {
                     value={taskName}
                     onChange={event => {setTaskName(event.target.value)}}
                     />
+                    {/* <input
+                    placeholder="Task Description"
+                    aria-label="Task Description"
+                    value={state.tasks.description}
+                    onChange={event => {setTaskName(event.target.value)}}
+                    /> */}
                 <br />
                 <button onClick={() => {dispatch({type: 'addTask', name: taskName})}}>Add Task</button>
                 <br />
@@ -85,6 +101,9 @@ const Body = () => {
                         <div key={task.id}>
                             <ListGroup>
                                 <ListGroupItem action variant="info">{task.title}</ListGroupItem>
+                                <button 
+                                  onClick={() => {dispatch({type: 'editTask', task: task})}}
+                                >Edit Task</button>
                             </ListGroup>
                         </div>
                     ))}
