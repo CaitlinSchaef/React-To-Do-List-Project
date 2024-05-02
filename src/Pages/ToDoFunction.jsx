@@ -41,13 +41,24 @@ export const taskReducer = (state, action) => {
             return {tasks: [...state.tasks, {id: state.tasks.length + 1, title: action.name, status: "to-do", description: ""}]}
         //case for editing 
         case 'editTask':
-          let updatedArray = [...state.tasks]
-          updatedArray = updatedArray.map(item => {
-
+          let updatedTask = [...state.tasks]
+          // everyItem is every item in the updatedTask array list
+          updatedTask = updatedTask.map(arrayItem => {
+            //this line is checking if the id of an element matches the one that committed the action 
+            if (arrayItem.id === action.task.id) {
+                // everyItem.title && everyItem.description
+                // we're returning something no matter what, an edited item, or in an else if a normal item 
+              // set arrayItem.title to the value of action.newInformationThatHasComeToLightFromTheTextEnteredByTheUserIntoAnInputWhichWasAJSXElementOnTheScreen
+                // arrayItem.title = 
+                return arrayItem
+            } else {
+              return arrayItem
+            }
           })
           return {
-            tasks: updatedArray
+            tasks: updatedTask
           }
+          //put next case here
     }
 }
 
@@ -62,6 +73,7 @@ const Body = () => {
     // localStorage.getItem('name', taskName) 
     const [taskName, setTaskName] = useState('')
 
+    const [showEditInput, setShowEditInput] = useState(false)
     // after first load if state.tasks changes
     // set local storage to be equal to state.tasks
     //  localStorage.setItem('name', taskName)
@@ -101,9 +113,12 @@ const Body = () => {
                         <div key={task.id}>
                             <ListGroup>
                                 <ListGroupItem action variant="info">{task.title}</ListGroupItem>
+                                {/* This button needs to bring up a text box or something that we can edit the fields*/}
+                                <button> Edit Task </button>
+                                  {/* This button then needs to send the updated task up to the reducer where it will change the info*/}
                                 <button 
-                                  onClick={() => {dispatch({type: 'editTask', task: task})}}
-                                >Edit Task</button>
+                                  onClick={() => {dispatch({type: 'editTask', task: task, newInformationThatHasComeToLightFromTheTextEnteredByTheUserIntoAnInputWhichWasAJSXElementOnTheScreen: ''})}}
+                                >Submit Task</button>
                             </ListGroup>
                         </div>
                     ))}
