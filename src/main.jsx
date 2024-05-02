@@ -73,6 +73,7 @@ export const TaskContext = createContext()
 
 const TaskProvider = ({children}) => {
   const [state, dispatch] = useReducer(taskReducer, initialState)
+  console.log("state:", state)
   return (
     <TaskContext.Provider value={{state, dispatch}}>
       {children}

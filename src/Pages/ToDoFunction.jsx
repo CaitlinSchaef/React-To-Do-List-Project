@@ -12,16 +12,17 @@ import { ListGroupItem } from 'react-bootstrap';
 
 
 //initial State
-export const initialState = {
-    tasks: [
+export const initialState = 
+    // Utilizing the Nullish operator to implement local storage on load
+    JSON.parse(localStorage.getItem("state.tasks")) ?? 
+    {tasks: [
         // {
             // id: 0,
             // title: '',
             // status: , "complete" || "archived" || "todo"
             // description: '',
         // }s
-    ]
-}
+    ]};
 
 //reducer
 export const taskReducer = (state, action) => {
@@ -40,17 +41,13 @@ const Body = () => {
     // on first load 
     // read local storage - if it has anything in it, put it into your local state
     // localStorage.getItem('name', taskName) 
-    const [taskName, setTaskName] = useState(
-    // Utilizing the Nullish operator to implement local storage on load
-    JSON.parse(localStorage.getItem("state.tasks")) ?? [
-      "ToDo",
-    ])
+    const [taskName, setTaskName] = useState('')
 
     // after first load if state.tasks changes
     // set local storage to be equal to state.tasks
     //  localStorage.setItem('name', taskName)
     useEffect(() => {
-      localStorage.setItem("state.tasks", JSON.stringify(state.tasks));
+      localStorage.setItem("state.tasks", JSON.stringify(state));
     }, [state.tasks]);
 
     return (
