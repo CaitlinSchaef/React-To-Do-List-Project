@@ -9,12 +9,21 @@ import { TaskContext } from '../main';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ListGroupItem } from 'react-bootstrap';
 
-
+/*
+Data Processing follows CRUD: 
+C - create (data) setItem
+R - read (that data) getItem
+U - update (that data) setItem
+D - delete (that data) removeItem
+Applied in this app to local storage
+*/
 
 //initial State
 export const initialState = 
     // Utilizing the Nullish operator to implement local storage on load
+    // Setting the initial state to be the local storage if it is storing anything
     JSON.parse(localStorage.getItem("state.tasks")) ?? 
+    // an empty array of 'tasks' we would only need to give it values if we needed something to start out on the page really (or just have an initial value)
     {tasks: [
         // {
             // id: 0,
@@ -61,6 +70,8 @@ const Body = () => {
                 <h1>ToDo & Completed</h1>
                 {/* task input field and action button */}
                 <input
+                    placeholder="Task Name"
+                    aria-label="Task Name"
                     value={taskName}
                     onChange={event => {setTaskName(event.target.value)}}
                     />
