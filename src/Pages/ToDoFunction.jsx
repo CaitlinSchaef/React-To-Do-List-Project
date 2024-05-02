@@ -36,18 +36,23 @@ export const taskReducer = (state, action) => {
 // make a body const
 const Body = () => {
     const {state, dispatch} = useContext(TaskContext)
-    const [taskName, setTaskName] = useState('')
-    useEffect (() => {
-        
-        // on first load 
-        // read local storage - if it has anything in it, put it into your local state
-        // localStorage.getItem('name', taskName) 
 
-        // after first load if state.tasks changes
-        // set local storage to be equal to state.tasks
-        //  localStorage.setItem('name', taskName)
-        
-    }, [state.tasks])
+    // on first load 
+    // read local storage - if it has anything in it, put it into your local state
+    // localStorage.getItem('name', taskName) 
+    const [taskName, setTaskName] = useState(
+    // Utilizing the Nullish operator to implement local storage on load
+    JSON.parse(localStorage.getItem("state.tasks")) ?? [
+      "ToDo",
+    ])
+
+    // after first load if state.tasks changes
+    // set local storage to be equal to state.tasks
+    //  localStorage.setItem('name', taskName)
+    useEffect(() => {
+      localStorage.setItem("state.tasks", JSON.stringify(state.tasks));
+    }, [state.tasks]);
+
     return (
       <ThemeProvider
       breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']}
