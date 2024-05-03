@@ -57,12 +57,30 @@ export const taskReducer = (state, action) => {
           return {
             tasks: updatedTask
           }
-          //put next case here
+          //case to set status
+          // case 'changeStatus':
+          //   let updatedStatus = [...state.tasks]
+          //   updatedStatus = updatedStatus.map(arrayItem => {
+          //     if (arrayItem.id === action.task.id) {
+          //       arrayItem.status = action.newStatus
+          //       return arrayItem
+          //     } else {
+          //       return arrayItem
+          //     }
+          //   })
+          //delete all case
           case 'deleteAll':
             localStorage.clear("state.tasks")  
             return initialState
     }
 }
+
+//making a checkbox function?
+// const Checkbox = (props) => {
+//   return <input type="checkbox" checked={props.checkBox} 
+//           onClick={() => {dispatch({type: 'updateStatus', task: task,  newStatus: updatedStatus})}}
+//           />
+// }
 
 //The dispatch function returned by useReducer lets you update the state to a different value and trigger a re-render. You need to pass the action as the only argument to the dispatch function
 
@@ -76,8 +94,10 @@ const Body = () => {
     const [taskName, setTaskName] = useState('')
     //setting a state of editing, set to false to start
     const [showEditInput, setShowEditInput] = useState(false)
-
+    // this works with showEditInput, it is what holds the state of the edited task
     const [editedTask, setEditedTask] = useState('')
+    //we're setting checkbox state here, setting it to start as false
+    // const [checkBox, setCheckBox] = useState(false)
 
     // after first load if state.tasks changes
     // set local storage to be equal to state.tasks
@@ -118,6 +138,7 @@ const Body = () => {
                     {state.tasks.map(task => (
                         <div key={task.id}>
                             <ListGroup>
+                                {/* <Checkbox value={checkBox} setValue={setCheckBox}></Checkbox> */}
                                 <ListGroupItem action variant="info">{task.title}</ListGroupItem>
                                 {/* This button needs to bring up a text box or something that we can edit the fields*/}
                                 <button size="sm"
