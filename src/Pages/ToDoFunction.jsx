@@ -22,7 +22,7 @@ Applied in this app to local storage
 export const initialState = 
     // Utilizing the Nullish operator to implement local storage on load
     // Setting the initial state to be the local storage if it is storing anything
-    JSON.parse(localStorage.getItem("state.tasks")) ?? 
+    JSON.parse(localStorage.getItem("state.tasks")) ??
     // an empty array of 'tasks' we would only need to give it values if we needed something to start out on the page really (or just have an initial value)
     {tasks: [
         // {
@@ -48,7 +48,7 @@ export const taskReducer = (state, action) => {
             if (arrayItem.id === action.task.id) {
                 // everyItem.title && everyItem.description // we're returning something no matter what, an edited item, or in an else if a normal item 
               // set arrayItem.title to the value of action.newInformationThatHasComeToLightFromTheTextEnteredByTheUserIntoAnInputWhichWasAJSXElementOnTheScreen
-                // arrayItem.title = 
+                arrayItem.title = action.newInformation 
                 return arrayItem
             } else {
               return arrayItem
@@ -59,7 +59,8 @@ export const taskReducer = (state, action) => {
           }
           //put next case here
           case 'deleteAll':
-            return localStorage.clear(state.tasks)
+            localStorage.clear("state.tasks")  
+            return initialState
     }
 }
 
@@ -75,20 +76,15 @@ const Body = () => {
     const [taskName, setTaskName] = useState('')
     //setting a state of editing, set to false to start
     const [showEditInput, setShowEditInput] = useState(false)
+
+    const [editedTask, setEditedTask] = useState('')
+
     // after first load if state.tasks changes
     // set local storage to be equal to state.tasks
     //  localStorage.setItem('name', taskName)
     useEffect(() => {
       localStorage.setItem("state.tasks", JSON.stringify(state));
     }, [state.tasks]);
-
-    //making a function to handle click true and false (toggle between states with buttons below)
-    function handleClick() {
-      setShowEditInput(true);
-    }
-    function handleClick2(){
-      setShowEditInput(false);
-    }
 
 
     return (
@@ -124,34 +120,36 @@ const Body = () => {
                             <ListGroup>
                                 <ListGroupItem action variant="info">{task.title}</ListGroupItem>
                                 {/* This button needs to bring up a text box or something that we can edit the fields*/}
-                                <button 
-                                onClick={handleClick}
+                                <button size="sm"
+                                onClick={() => setShowEditInput(true)}
                                 > Edit Task </button>
                                 {/* This input field should occur when the edit task button is clicked  */}
-                                <input 
-                                type={() => {
-                                    if (setShowEditInput === false) {
-                                      'hidden'
-                                    }
-                                  }
+                                {showEditInput ? (
+                                  <>
+                                    <input 
+                                      placeholder="Edit Task Name"
+                                      aria-label="Edit Task Name"
+                                      value={editedTask}
+                                      onChange={event => {setEditedTask(event.target.value)}}
+                                    />
+                                      {/* This button then needs to send the updated task up to the reducer where it will change the info*/}
+                                    <button size="sm"
+                                      onClick={() => {
+                                        setShowEditInput(false)
+                                        dispatch({type: 'editTask', task: task, newInformation: editedTask})
+                                      }}
+                                    >Update Task</button>
+                                  </>
+                                  ) : null
                                 }
-                                placeholder="Edit Task Name"
-                                aria-label="Edit Task Name"
-                                value={showEditInput}
-                                onChange={event => {setShowEditInput(event.target.value)}}
-                                />
-                                  {/* This button then needs to send the updated task up to the reducer where it will change the info*/}
-                                <button 
-                                  onClick={() => {dispatch({type: 'editTask', task: task, newInformationThatHasComeToLightFromTheTextEnteredByTheUserIntoAnInputWhichWasAJSXElementOnTheScreen: ''})}}
-                                  onClickCapture={handleClick2}
-                                >Update Task</button>
                             </ListGroup>
                         </div>
                     ))}
               </div>
               <br />
                 <Link to='/'> 
-                <button onClick={() => {dispatch({type: 'deleteAll', name: taskName})}}>Clear All Tasks</button>
+                  <button onClick={() => {dispatch({type: 'deleteAll'})}}>Clear All Tasks</button>
+                    <br />
                   <button> Home  </button>
                 </Link> <br />
             </Col>
