@@ -46,8 +46,7 @@ export const taskReducer = (state, action) => {
           updatedTask = updatedTask.map(arrayItem => {
             //this line is checking if the id of an element matches the one that committed the action 
             if (arrayItem.id === action.task.id) {
-                // everyItem.title && everyItem.description
-                // we're returning something no matter what, an edited item, or in an else if a normal item 
+                // everyItem.title && everyItem.description // we're returning something no matter what, an edited item, or in an else if a normal item 
               // set arrayItem.title to the value of action.newInformationThatHasComeToLightFromTheTextEnteredByTheUserIntoAnInputWhichWasAJSXElementOnTheScreen
                 // arrayItem.title = 
                 return arrayItem
@@ -59,6 +58,8 @@ export const taskReducer = (state, action) => {
             tasks: updatedTask
           }
           //put next case here
+          case 'deleteAll':
+            return localStorage.clear(state.tasks)
     }
 }
 
@@ -72,7 +73,7 @@ const Body = () => {
     // read local storage - if it has anything in it, put it into your local state
     // localStorage.getItem('name', taskName) 
     const [taskName, setTaskName] = useState('')
-
+    //setting a state of editing, set to false to start
     const [showEditInput, setShowEditInput] = useState(false)
     // after first load if state.tasks changes
     // set local storage to be equal to state.tasks
@@ -80,6 +81,15 @@ const Body = () => {
     useEffect(() => {
       localStorage.setItem("state.tasks", JSON.stringify(state));
     }, [state.tasks]);
+
+    //making a function to handle click true and false (toggle between states with buttons below)
+    function handleClick() {
+      setShowEditInput(true);
+    }
+    function handleClick2(){
+      setShowEditInput(false);
+    }
+
 
     return (
       <ThemeProvider
@@ -114,17 +124,34 @@ const Body = () => {
                             <ListGroup>
                                 <ListGroupItem action variant="info">{task.title}</ListGroupItem>
                                 {/* This button needs to bring up a text box or something that we can edit the fields*/}
-                                <button> Edit Task </button>
+                                <button 
+                                onClick={handleClick}
+                                > Edit Task </button>
+                                {/* This input field should occur when the edit task button is clicked  */}
+                                <input 
+                                type={() => {
+                                    if (setShowEditInput === false) {
+                                      'hidden'
+                                    }
+                                  }
+                                }
+                                placeholder="Edit Task Name"
+                                aria-label="Edit Task Name"
+                                value={showEditInput}
+                                onChange={event => {setShowEditInput(event.target.value)}}
+                                />
                                   {/* This button then needs to send the updated task up to the reducer where it will change the info*/}
                                 <button 
                                   onClick={() => {dispatch({type: 'editTask', task: task, newInformationThatHasComeToLightFromTheTextEnteredByTheUserIntoAnInputWhichWasAJSXElementOnTheScreen: ''})}}
-                                >Submit Task</button>
+                                  onClickCapture={handleClick2}
+                                >Update Task</button>
                             </ListGroup>
                         </div>
                     ))}
               </div>
               <br />
                 <Link to='/'> 
+                <button onClick={() => {dispatch({type: 'deleteAll', name: taskName})}}>Clear All Tasks</button>
                   <button> Home  </button>
                 </Link> <br />
             </Col>

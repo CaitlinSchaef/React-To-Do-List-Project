@@ -15,16 +15,31 @@ html {
 }
 
 body {
-  background-color: blueviolet;
+  background-image: url("../src/assets/tealBack.jpg"); 
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #f6f4e6;
+  background-size: cover;
+    /* attachment is what let you wrap it to the screen properly */
+  background-attachment: fixed;
+  overflow: hidden;
   color: #f6f4e6;
  }
 
  .MainBody {
-  background-color: green;
+  background-color: rgba(154, 154, 154, 0.699);
   border-radius: 2%;
   color: white;
   /* border-style: solid;
   border-color: white;
   border-width: 3px; */
   flex-wrap: wrap;
+  padding-top: 5px;
+  margin-top: 30px;
+ }
+
+ button {
+  background-color: #148C80;
+  color: #f6f4e6;
+  border-radius: 4%;
  }
